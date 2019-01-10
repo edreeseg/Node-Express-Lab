@@ -9,6 +9,7 @@ server.use(bodyParser.json());
 const port = 5000;
 
 server.get('/api/posts', (req, res) => {
+    res.header('Access-Control-Allow-Origin', '*');
     db.find().then(posts => res.send({ posts }))
         .catch(err => {
             console.log(err);
