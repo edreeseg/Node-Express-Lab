@@ -40,6 +40,47 @@ server.post('/api/posts', (req, res) => {
 
 });
 
+server.get('/api/posts/:id', (req, res) => {
+    const id = req.params.id;
+    db.findById(id)
+        .then(post => {
+            if (post.length === 0){
+                res.status(404);
+                res.json({ message: 'The post with the specified ID does not exist.' });
+            } else {
+                res.json({ post });
+            }
+        })
+        .catch(err => {
+            res.status(500);
+            res.json({ error: 'The post information could not be retrieved.'});
+        });
+});
+
+server.delete('/api/posts/:id', (req, res) => {
+    const id = req.params.id;
+    db.findById(id)
+        .then(post => {
+            if (post.length === 0){
+                res.status(404);
+                res.json({ message: 'The post with the specified ID does not exist.' });
+            } else {
+                db.remove(id)
+                    .then(result => {
+                        res.json(post);
+                    })
+                    .catch(err => {
+                        res.status(500);
+                        res.json({ error: 'The post could not be removed.' });
+                    });
+            }
+        })
+        .catch(err => {
+            res.status(500);
+            res.json({ error: 'The post could not be removed.' });
+        });
+});
+
  server.listen(port, () => {
     console.log(`Server listening on port ${port}.`);
  });
