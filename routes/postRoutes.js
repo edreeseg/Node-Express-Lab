@@ -3,7 +3,6 @@ const router = express.Router();
 const db = require('../data/db');
 
 router.get('/', (req, res) => {
-  res.header('Access-Control-Allow-Origin', '*');
   db.find()
     .then(posts => res.json({ posts }))
     .catch(err =>
