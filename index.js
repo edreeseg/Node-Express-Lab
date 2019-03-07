@@ -5,7 +5,8 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
-const port = 5000;
+const port = process.env.PORT || 5000;
+
 const postRoutes = require('./routes/postRoutes');
 
 server.use('/api/posts', postRoutes);
